@@ -4,10 +4,10 @@ import { Panel } from "@/components";
 import { useEffect, useState } from "react";
 import { getCategories } from "@/utils/getProduct";
 
-const fetchCategories = async () => {
+const fetchCategories = async (type: string) => {
   try {
     const data = await getCategories();
-    return tabList(data);
+    return type === "category" ? tabList(data) : panelList(data);
   } catch (error) {
     console.log(error);
   }
@@ -16,24 +16,27 @@ const fetchCategories = async () => {
 const tabList = (data: any) =>
   data.map((category: any, index: number) => <Tab key={index}>{category}</Tab>);
 
+const panelList = (data: any) =>
+  data.map((category: any, index: number) => (
+    <Panel key={index} category={category} />
+  ));
+
 const TabComponents = () => {
   const [categories, setCategories] = useState<any>();
-  useEffect(() => setCategories(fetchCategories()), []);
+  const [products, setProducts] = useState<any>();
+  useEffect(() => {
+    setCategories(fetchCategories("category"));
+    setProducts(fetchCategories("panel"));
+  }, []);
   return (
-    <Tabs colorScheme="black" className="max-w-screen" variant="unstyled">
-      <div className="max-w-screen whitespace-nowrap overflow-x-scroll overflow-y-hidden">
+    <Tabs colorScheme="black" className="max-w-screen">
+      <div
+        className="max-w-screen whitespace-nowrap overflow-x-scroll overflow-y-hidden"
+        style={{ scrollbarWidth: "none" }}
+      >
         <TabList p={0}>{categories}</TabList>
-        <TabIndicator
-          w={"full"}
-          mt="-1.5px"
-          height="2px"
-          bg="black"
-          borderRadius="1px"
-        />
       </div>
-      <TabPanels>
-        <Panel />
-      </TabPanels>
+      <TabPanels>{products}</TabPanels>
     </Tabs>
   );
 };
