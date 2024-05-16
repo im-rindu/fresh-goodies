@@ -3,6 +3,7 @@ import { TabPanel } from "@chakra-ui/react";
 import { Card } from "@/components";
 import { getAllProduct, getProductByCategories } from "@/utils/getProduct";
 import { useEffect, useState } from "react";
+import { Product } from "@/types/product";
 
 const fetchData = async (category: string) => {
   try {
@@ -15,15 +16,9 @@ const fetchData = async (category: string) => {
   }
 };
 
-const productCard = (productData: any) =>
-  productData.map((product: any, index: number) => (
-    <Card
-      key={index}
-      name={product.name}
-      price={product.price}
-      weight={product.weight}
-      imageUrl={product.imageUrl}
-    />
+const productCard = (productData: Product[]) =>
+  productData.map((product: Product, index: number) => (
+    <Card key={index} product={product} />
   ));
 
 const Panel = ({ category }: { category: string }) => {

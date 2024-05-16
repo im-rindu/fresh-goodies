@@ -7,17 +7,19 @@ import { getCategories } from "@/utils/getProduct";
 const fetchCategories = async (type: string) => {
   try {
     const data = await getCategories();
-    return type === "category" ? tabList(data) : panelList(data);
+    return type === "category" ? tabList(data!) : panelList(data!);
   } catch (error) {
     console.log(error);
   }
 };
 
-const tabList = (data: any) =>
-  data.map((category: any, index: number) => <Tab key={index}>{category}</Tab>);
+const tabList = (data: string[]) =>
+  data.map((category: string, index: number) => (
+    <Tab key={index}>{category}</Tab>
+  ));
 
-const panelList = (data: any) =>
-  data.map((category: any, index: number) => (
+const panelList = (data: string[]) =>
+  data.map((category: string, index: number) => (
     <Panel key={index} category={category} />
   ));
 
@@ -36,7 +38,7 @@ const TabComponents = () => {
       >
         <TabList p={0}>{categories}</TabList>
       </div>
-      <TabPanels>{products}</TabPanels>
+      <TabPanels className="h-[80vh] overflow-y-scroll">{products}</TabPanels>
     </Tabs>
   );
 };
