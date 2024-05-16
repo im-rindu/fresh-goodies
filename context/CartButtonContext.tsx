@@ -60,7 +60,19 @@ const CartButtonProvider = (props: any) => {
             </Text>
             {currentItem.map((item, index) => (
               <Image
-                className={`rounded-full`}
+                className={`rounded-full ${
+                  currentItem.length < 3
+                    ? "-mr-1"
+                    : currentItem.length < 5
+                    ? "-mr-2"
+                    : currentItem.length < 6
+                    ? "-mr-3"
+                    : currentItem.length < 8
+                    ? "-mr-4"
+                    : currentItem.length < 10
+                    ? "-mr-5"
+                    : "-mr-[1.625em]"
+                }`}
                 key={index}
                 src={item}
                 alt={item}
@@ -68,7 +80,7 @@ const CartButtonProvider = (props: any) => {
               />
             ))}
           </div>
-          <Text className="inline-block my-auto">${totalPrice.toFixed(4)}</Text>
+          <Text className="inline-block my-auto">${totalPrice.toFixed(2)}</Text>
         </button>
       </div>
     </CartButtonContext.Provider>
