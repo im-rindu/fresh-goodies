@@ -1,4 +1,5 @@
 "use client";
+import { CartPageContext } from "@/context/CartPageContext";
 import { ProductContext } from "@/context/ProductContext";
 import {
   DrawerBody,
@@ -15,6 +16,7 @@ const Detail = () => {
     productDetail.price * (1000 / productDetail.metadata.weight)
   );
   const [totalWeight, setTotalWeight] = useState(1000);
+  const { onOpen } = useContext(CartPageContext);
 
   const addCount = () => {
     setTotalWeight(totalWeight + 100);
@@ -95,9 +97,12 @@ const Detail = () => {
           </a>
         </div>
         <div>
-          <button className="rounded-full bg-black text-white w-full p-4 mb-4 flex flex-row justify-between">
+          <button
+            className="rounded-full bg-black text-white w-full p-4 mb-4 flex flex-row justify-between"
+            onClick={() => onOpen()}
+          >
             <Text className="mx-4">Add to Cart</Text>
-            <Text className="mx-4">${totalPrice.toFixed(4)}</Text>
+            <Text className="mx-4">${totalPrice.toFixed(2)}</Text>
           </button>
         </div>
       </DrawerBody>

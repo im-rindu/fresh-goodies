@@ -80,7 +80,7 @@ const CardComponent = ({ product }: { product: Product }) => {
             onClick={() => openDrawer()}
           />
           <Stack spacing={0}>
-            <Heading size="lg">{totalPrice.toFixed(4)}$</Heading>
+            <Heading size="lg">{totalPrice.toFixed(2)}$</Heading>
             <Text>{product.name}</Text>
           </Stack>
         </CardBody>

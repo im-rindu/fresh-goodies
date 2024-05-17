@@ -1,7 +1,8 @@
 "use client";
-import { createContext, useState } from "react";
-import { Image, Text } from "@chakra-ui/react";
+import { createContext, useContext, useState } from "react";
+import { Text } from "@chakra-ui/react";
 import { CartItem } from "@/types/cart";
+import ButtonComponent from "@/components/Button";
 
 const cart: CartItem[] = [];
 
@@ -11,6 +12,7 @@ interface CartButtonContextType {
   cartNotEmpty: () => void;
   countTotalPrice: () => void;
   cart: CartItem[];
+  totalPrice: number;
 }
 
 const CartButtonContext = createContext<CartButtonContextType>({
@@ -19,6 +21,7 @@ const CartButtonContext = createContext<CartButtonContextType>({
   cartNotEmpty: () => {},
   countTotalPrice: () => {},
   cart,
+  totalPrice: 0,
 });
 
 const CartButtonProvider = (props: any) => {
@@ -45,7 +48,14 @@ const CartButtonProvider = (props: any) => {
 
   return (
     <CartButtonContext.Provider
-      value={{ isCart, cartEmpty, cartNotEmpty, cart, countTotalPrice }}
+      value={{
+        isCart,
+        cartEmpty,
+        cartNotEmpty,
+        cart,
+        countTotalPrice,
+        totalPrice,
+      }}
     >
       {props.children}
       <div
@@ -53,35 +63,7 @@ const CartButtonProvider = (props: any) => {
           isCart ? "" : "hidden"
         }`}
       >
-        <button className="w-full bg-black py-4 px-6 text-white rounded-full flex flex-row justify-between">
-          <div className="flex flex-row align-middle relative items-center">
-            <Text mr={5} className="inline-block">
-              Cart
-            </Text>
-            {currentItem.map((item, index) => (
-              <Image
-                className={`rounded-full ${
-                  currentItem.length < 3
-                    ? "-mr-1"
-                    : currentItem.length < 5
-                    ? "-mr-2"
-                    : currentItem.length < 6
-                    ? "-mr-3"
-                    : currentItem.length < 8
-                    ? "-mr-4"
-                    : currentItem.length < 10
-                    ? "-mr-5"
-                    : "-mr-[1.625em]"
-                }`}
-                key={index}
-                src={item}
-                alt={item}
-                boxSize="36px"
-              />
-            ))}
-          </div>
-          <Text className="inline-block my-auto">${totalPrice.toFixed(2)}</Text>
-        </button>
+        <ButtonComponent totalPrice={totalPrice} currentItem={currentItem} />
       </div>
     </CartButtonContext.Provider>
   );

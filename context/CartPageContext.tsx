@@ -3,13 +3,21 @@ import Cart from "@/components/Cart";
 import { useDisclosure, Drawer, DrawerOverlay } from "@chakra-ui/react";
 import { createContext } from "react";
 
-const CartPageContext = createContext(() => {});
+interface CartPageContextType {
+  onOpen: () => void;
+  onClose: () => void;
+}
+
+const CartPageContext = createContext<CartPageContextType>({
+  onOpen: () => {},
+  onClose: () => {},
+});
 
 const CartPageProvider = (props: any) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <CartPageContext.Provider value={onOpen}>
+    <CartPageContext.Provider value={{ onOpen, onClose }}>
       {props.children}
       <Drawer placement="bottom" onClose={onClose} isOpen={isOpen}>
         <DrawerOverlay />
