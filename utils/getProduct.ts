@@ -1,8 +1,9 @@
+import { config } from "@/constants/url";
 import { Product } from "@/types/product";
 
 export const getAllProduct = async () => {
   try {
-    const response = await fetch("http://localhost:8080/products");
+    const response = await fetch(config.BASE_URL);
     return response.json();
   } catch (error) {
     console.log(error);

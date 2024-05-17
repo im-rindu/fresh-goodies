@@ -1,22 +1,31 @@
+import { CartButtonContext } from "@/context/CartButtonContext";
 import { CartItem } from "@/types/cart";
 import { Button, Heading, Box, Text, Image } from "@chakra-ui/react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 const CartProduct = (item: CartItem) => {
+  const { isCart, cartEmpty, cartNotEmpty, cart, countTotalPrice } =
+    useContext(CartButtonContext);
   const [totalPrice, setTotalPrice] = useState(
     item.productId.price * item.quantity
   );
   const [totalWeight, setTotalWeight] = useState(
     (item.quantity * item.productId.weight) / 10
   );
+  const cartId = cart.findIndex(
+    (product) => product.productId === item.productId
+  );
 
   const addCount = () => {
     setTotalWeight(totalWeight + 100);
     setTotalPrice(totalPrice + item.productId.price);
+    cart[cartId].quantity += 100 / item.productId.metadata.weight;
+    //item.quantity += 100 / item.productId.metadata.weight;
   };
   const reduceCount = () => {
     setTotalWeight(totalWeight - 100);
     setTotalPrice(totalPrice - item.productId.price);
+    cart[cartId].quantity += 100 / item.productId.metadata.weight;
   };
   return (
     <Box className="grid grid-cols-5 items-center">

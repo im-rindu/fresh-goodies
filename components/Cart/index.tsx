@@ -44,8 +44,7 @@ const Cart = () => {
               <Text>
                 {totalPrice >= 5
                   ? `You Have a Free shipping`
-                  : `Before free shipping{" "}
-                ${(5 - totalPrice).toFixed(2)}`}
+                  : `Before free shipping ${(5 - totalPrice).toFixed(2)}`}
               </Text>
               <Progress
                 colorScheme="green"
